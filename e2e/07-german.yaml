@@ -1,0 +1,13 @@
+appId: de.zahln.student
+name: The pay screen speaks German
+---
+- runFlow:
+    file: flows/sign-in.yaml
+    env:
+      USER: student
+- tapOn:
+    id: "language"
+- assertVisible: "Scannen und bezahlen"
+- runFlow: flows/open-new-order.yaml
+- assertVisible: "Preis für Studierende"
+- assertVisible: "4,00.€ bezahlen"

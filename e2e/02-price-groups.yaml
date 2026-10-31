@@ -1,0 +1,21 @@
+appId: de.zahln.student
+name: The same order shows each price group its own amount
+---
+- runFlow:
+    file: flows/sign-in.yaml
+    env:
+      USER: staff
+- runFlow: flows/open-new-order.yaml
+- assertVisible: "€6.80"
+- assertVisible: "Staff price"
+- runFlow:
+    file: flows/sign-in.yaml
+    env:
+      USER: guest
+- openLink: "zahln://pay?order=${output.orderId}"
+- extendedWaitUntil:
+    visible:
+      id: "pay-amount"
+    timeout: 60000
+- assertVisible: "€8.80"
+- assertVisible: "Guest price"

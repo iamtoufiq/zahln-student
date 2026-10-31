@@ -1,0 +1,36 @@
+appId: de.zahln.student
+name: Pay an order and see it in history
+---
+- runFlow:
+    file: flows/sign-in.yaml
+    env:
+      USER: student
+- runScript:
+    file: scripts/api.js
+    env:
+      ACTION: create_order
+- openLink: "zahln://pay?order=${output.orderId}"
+- extendedWaitUntil:
+    visible:
+      id: "pay-amount"
+    timeout: 60000
+- assertVisible: "€4.00"
+- tapOn:
+    id: "pay-confirm"
+- runFlow: flows/enter-pin.yaml
+- runFlow: flows/enter-pin.yaml
+- extendedWaitUntil:
+    visible: "Paid"
+    timeout: 120000
+- runScript:
+    file: scripts/api.js
+    env:
+      ACTION: assert_one_payment
+      ORDER_ID: ${output.orderId}
+- tapOn:
+    id: "pay-done"
+- tapOn:
+    id: "history"
+- extendedWaitUntil:
+    visible: "Mensa am Campus"
+    timeout: 60000

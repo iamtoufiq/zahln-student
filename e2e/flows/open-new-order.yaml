@@ -1,0 +1,11 @@
+appId: de.zahln.student
+---
+- runScript:
+    file: ../scripts/api.js
+    env:
+      ACTION: create_order
+- openLink: "zahln://pay?order=${output.orderId}"
+- extendedWaitUntil:
+    visible:
+      id: "pay-amount"
+    timeout: 60000

@@ -1,0 +1,10 @@
+appId: de.zahln.student
+---
+# First pay on a fresh install: choose the PIN, then type the first three digits of the repeat.
+- runFlow: enter-pin.yaml
+- tapOn:
+    id: "pin-1"
+- tapOn:
+    id: "pin-2"
+- tapOn:
+    id: "pin-3"

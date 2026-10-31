@@ -1,0 +1,14 @@
+appId: de.zahln.student
+---
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: "pick-${USER}"
+    timeout: 120000
+- tapOn:
+    id: "pick-${USER}"
+- extendedWaitUntil:
+    visible:
+      id: "scan"
+    timeout: 60000

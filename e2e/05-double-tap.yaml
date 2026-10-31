@@ -1,0 +1,23 @@
+appId: de.zahln.student
+name: Tapping Pay twice still pays once
+---
+- runFlow:
+    file: flows/sign-in.yaml
+    env:
+      USER: student
+- runFlow: flows/open-new-order.yaml
+- tapOn:
+    id: "pay-confirm"
+- tapOn:
+    id: "pay-confirm"
+    optional: true
+- runFlow: flows/enter-pin.yaml
+- runFlow: flows/enter-pin.yaml
+- extendedWaitUntil:
+    visible: "Paid"
+    timeout: 120000
+- runScript:
+    file: scripts/api.js
+    env:
+      ACTION: assert_one_payment
+      ORDER_ID: ${output.orderId}

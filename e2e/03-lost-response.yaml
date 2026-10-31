@@ -1,0 +1,22 @@
+appId: de.zahln.student
+name: A lost payment response is retried with the same key and charges once
+---
+- runFlow:
+    file: flows/sign-in.yaml
+    env:
+      USER: student
+- openLink: "zahln://dev/faults?mode=lose_response"
+- runFlow: flows/open-new-order.yaml
+- tapOn:
+    id: "pay-confirm"
+- runFlow: flows/enter-pin.yaml
+- runFlow: flows/enter-pin.yaml
+- extendedWaitUntil:
+    visible: "Paid"
+    timeout: 120000
+- runScript:
+    file: scripts/api.js
+    env:
+      ACTION: assert_one_payment
+      ORDER_ID: ${output.orderId}
+- openLink: "zahln://dev/faults?mode=off"

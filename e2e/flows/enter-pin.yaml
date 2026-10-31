@@ -1,0 +1,10 @@
+appId: de.zahln.student
+---
+- tapOn:
+    id: "pin-1"
+- tapOn:
+    id: "pin-2"
+- tapOn:
+    id: "pin-3"
+- tapOn:
+    id: "pin-4"
