@@ -11,8 +11,8 @@ Requirements: Node 22, Android Studio with an emulator (or a phone with USB debu
 ```bash
 npm install
 cp .env.example .env   # API base URL and candidate id
-npm run android        # builds a dev client and starts Metro
-npm run ios
+npm run android        # Android: builds and installs a dev build, starts Metro
+npm run ios            # iOS simulator: the same, needs Xcode
 ```
 
 Pick **Student**, **Staff** or **Guest** on the first screen. To pay without a camera, open a till order by link:
@@ -25,6 +25,20 @@ xcrun simctl openurl booted "zahln://pay?order=<order id>"
 or type the order id on the scan screen.
 
 If the device has no fingerprint, face or screen lock, the app asks you to choose a 4-digit PIN the first time you pay.
+
+### Running the student app and the till together
+
+Each app starts its own Metro bundler, and both use port 8081 by default. Start the second one on another port:
+
+```bash
+# terminal 1, in zahln-student
+npm run android                    # Metro on 8081
+
+# terminal 2, in zahln-till
+npm run android -- --port 8082     # Metro on 8082
+```
+
+The same works for iOS (`npm run ios -- --port 8082`). Once a dev build is installed, `npx expo start --port 8082` only starts Metro.
 
 ## Test
 
@@ -62,7 +76,7 @@ Expo SDK 58 with Expo Router; TanStack Query for lists; Zustand for the session 
 
 ## Tools
 
-I made the architecture and design decisions. Claude Code was used as a coding assistant during implementation. All flows were tested on an Android emulator against the mock API.
+I made the architecture and design decisions. Claude Code was used as a coding assistant during implementation. All flows were tested on an Android emulator and on a low-end Android phone against the mock API.
 
 ## Test logins
 
